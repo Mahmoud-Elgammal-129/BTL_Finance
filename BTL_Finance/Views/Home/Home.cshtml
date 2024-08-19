@@ -1,0 +1,152 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+
+}
+
+@model List<ProgressDTo>
+<html>
+<head>
+    <style>
+        .progress-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .progress-step {
+            text-align: center;
+            position: relative;
+            flex: 1;
+        }
+
+            .progress-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                right: -50%;
+                width: 100%;
+                height: 5px;
+                background-color: lightgray;
+                z-index: -1;
+            }
+
+        .progress-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .completed .progress-circle {
+            background-color: green;
+        }
+
+        .completed::after {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by Request Name">
+    </div>
+    <div id="loading" class="text-center my-5">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div id="content" class="d-none">
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="request-item">
+                <h2 class="request-name">@item.RequestName - @item.CompanyName</h2>
+                <div class="progress-container">
+                    <div class="progress-step @(item.Reqest_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>Request</div>
+                    </div>
+                    <div class="progress-step @(item.Order_Sheet_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>Order Sheet</div>
+                    </div>
+                    <div class="progress-step @(item.Delivery_Note_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>Delivery Note</div>
+                    </div>
+                    <div class="progress-step @(item.Quote_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>Quote</div>
+                    </div>
+                    <div class="progress-step @(item.PO_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>PO</div>
+                    </div>
+                    <div class="progress-step @(item.Invoice_Status ? "completed" : "")">
+                        <div class="progress-circle">✓</div>
+                        <div>Invoice</div>
+                    </div>
+                    <div>
+                        <a asp-action="Details" asp-controller="Request" asp-route-requestName="@item.RequestName" class="btn btn-outline-info">Request Deatils</a>
+
+                       </div
+                </div>
+                    
+                </div>
+            }
+
+        }
+        else
+        {
+            <div> No requests found.</div>
+        }
+       
+    
+    </div>
+    </body>
+    </html>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Simulate a delay to show the loading spinner
+            setTimeout(function () {
+                $('#loading').hide();
+                $('#content').removeClass('d-none');
+            }, 1000); // Adjust the timeout as needed
+
+
+            // Search functionality
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('.request-item').filter(function () {
+                    $(this).toggle($(this).find('.request-name').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            // Search functionality
+            // $('#searchInput').on('keyup', function () {
+            //     var value = $(this).val().toLowerCase();
+            //     $('#content').filter(function () {
+            //         $(this).toggle($(this).find('.request-name').text().toLowerCase().indexOf(value) > -1)
+            //     });
+            // });
+
+            $(".alert").show().delay(3000).fadeOut(500); // Display for 3 seconds, fade out in 0.5 seconds
+        });
+
+
+    </script>
+}

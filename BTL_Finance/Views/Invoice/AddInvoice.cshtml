@@ -1,0 +1,52 @@
+﻿@model BTL_Finance.Models.Invoice
+@{
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+
+}
+
+<form asp-action="AddInvoice" asp-controller="Invoice" method="post" enctype="multipart/form-data" class="container mt-5">
+    <div class="form-group mt-2">
+        <label asp-for="InvoiceNumber" class="form-label ">InvoiceNumber</label>
+        <input asp-for="InvoiceNumber" type="number" class="form-control" />
+        <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+
+    </div>
+@*     <div class="form-group mt-2">
+        <label asp-for="CompanyName" class="form-label ">CompanyName</label>
+        <input asp-for="CompanyName" type="text" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="Type" class="form-label ">Type</label>
+        <input asp-for="Type" type="text" class="form-control" />
+        <span asp-validation-for="Type" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="Channel" class="form-label ">Channel</label>
+        <input asp-for="Channel" type="text" class="form-control" />
+        <span asp-validation-for="Channel" class="text-danger"></span>
+
+    </div> *@
+    <div class="form-group mt-2">
+        <label class="form-label" for="file">Choose file attachment</label>
+        <input type="file" class="form-control" id="formFile" name="file" a>
+    </div>
+    <input type="hidden" asp-for="RequestFormId" value=@ViewBag.RequestId />
+
+    <div class="mt-5">
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+    </div>
+
+    <div class="col">
+        <a asp-action="Index" class="btn btn-outline-primary float-right">Back to Invoice List</a>
+    </div>
+</form>
+@section scripts {
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

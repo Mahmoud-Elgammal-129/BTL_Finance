@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model BTL_Finance.Models.Request
+@{
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+}
+
+<form asp-action="AddRequest" asp-controller="Request" method="post" enctype="multipart/form-data" class="container mt-5">
+    <div class="form-group mt-2">
+        <label asp-for="Request_Name" class="form-label ">Request Name</label>
+        <input asp-for="Request_Name" type="text" class="form-control" />
+        <span asp-validation-for="Request_Name" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="ClientName" class="form-label ">ClientName</label>
+        <input asp-for="ClientName" type="text" class="form-control" />
+        <span asp-validation-for="ClientName" class="text-danger"></span>
+
+    </div>
+   
+    <div class="form-group mt-2">
+        <label asp-for="Email" class="form-label ">Email</label>
+        <input asp-for="Email" type="text" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="Mobile" class="form-label ">Mobile</label>
+        <input asp-for="Mobile" type="number" class="form-control" />
+        <span asp-validation-for="Mobile" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="CompanyName" class="form-label ">CompanyName</label>
+        <input asp-for="CompanyName" type="text" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="Type" class="form-label ">Type</label>
+        <input asp-for="Type" type="text" class="form-control" />
+        <span asp-validation-for="Type" class="text-danger"></span>
+
+    </div>
+    <div class="form-group mt-2">
+        <label asp-for="Channel" class="form-label ">Channel</label>
+        <input asp-for="Channel" type="text" class="form-control" />
+        <span asp-validation-for="Channel" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group mt-2">
+        <label class="form-label" for="file">Choose file attachment</label>
+        <input type="file" class="form-control" id="formFile" name="file" required>
+        <span id="fileError" class="text-danger"></span>
+
+    </div>
+    <div class="mt-5">
+        <button type="submit" class="btn btn-primary">Upload</button>
+
+    </div>
+    <div class="col">
+        <a asp-action="Index" class="btn btn-outline-primary float-right">Back to Request List</a>
+    </div>
+</form>
+@section scripts {
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

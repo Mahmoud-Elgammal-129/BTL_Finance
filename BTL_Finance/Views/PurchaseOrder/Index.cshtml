@@ -1,0 +1,98 @@
+﻿@model List<PurchaseOrder>
+
+@{
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+    int counter = 1;
+
+}@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-@TempData["AlertType"] alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="Close">&times;</a>
+        @TempData["AlertMessage"]
+    </div>
+}
+<nav class="navbar p-0 shadow-none">
+@*     <div class="container-fluid m-0 p-0">
+        <a asp-action="AddPurchaseOrder" asp-controller="PurchaseOrder" class="btn btn-success m-0">New Purchase Order </a>
+
+    </div> *@
+</nav>
+<div id="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div id="content" class="d-none">
+    <h1>Purchase Order </h1>
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by Request Name">
+    </div>
+    <table class="table table-bordered table-hover" id="orderSheetTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Request Name</th>
+                <th>CompanyName</th>
+
+                <th>PONumber</th>
+               
+                <th>Channel</th>
+                <th>Type</th>
+                <th>AttachmentPath</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var unitType in Model)
+                {
+                    <tr>
+                        <td>@(counter++)</td>
+                        <td class="request-name">@unitType.RequestForm.Request_Name</td>
+                        <td>@unitType.RequestForm.CompanyName</td>
+
+                        <td>@unitType.PONumber</td>
+                        <td>@unitType.RequestForm.Channel</td>
+                        <td>@unitType.RequestForm.Type</td>
+                        <td><a href="@Url.Action("ServeFile", "Request", new { filePath = unitType.AttachmentPath })" target="_blank">View In Browser</a></td>
+                        
+
+@*                         <td>
+                            <a asp-action="Edit" asp-route-id="@unitType.ID" class="btn btn-outline-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@unitType.ID" class="btn btn-outline-danger">Delete</a>
+                        </td> *@
+                    </tr>
+                }
+
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No requests found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Simulate a delay to show the loading spinner
+            setTimeout(function () {
+                $('#loading').hide();
+                $('#content').removeClass('d-none');
+            }, 1000); // Adjust the timeout as needed
+            // Search functionality
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#orderSheetTable tbody tr').filter(function () {
+                    $(this).toggle($(this).find('.request-name').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            $(".alert").show().delay(3000).fadeOut(500);
+        });
+
+    </script>
+}

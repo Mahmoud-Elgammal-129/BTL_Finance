@@ -1,0 +1,12 @@
+﻿@{
+    string alertType = TempData["AlertType"] as string;
+    string alertMessage = TempData["AlertMessage"] as string;
+}
+
+@if (!string.IsNullOrEmpty(alertMessage))
+{
+    <div class="alert @alertType alert-dismissible fade show" role="alert">
+        @alertMessage
+
+    </div>
+}

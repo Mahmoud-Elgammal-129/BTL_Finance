@@ -1,0 +1,34 @@
+﻿@if (TempData["S_Message"] != null)
+{
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success('@TempData["S_Message"]');
+    </script>
+}
+
+@if (TempData["W_Message"] != null)
+{
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.warning('@TempData["W_Message"]');
+    </script>
+}
+
+@if (TempData["I_Message"] != null)
+{
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.info('@TempData["I_Message"]');
+    </script>
+}
+@if (TempData["E_Message"] != null)
+{
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.error('@TempData["E_Message"]');
+    </script>
+}

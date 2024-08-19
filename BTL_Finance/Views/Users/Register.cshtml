@@ -1,0 +1,52 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+}
+<!-- Register.cshtml -->
+@model BTL_Finance.ViewModel.RegisterVM
+
+<form asp-action="Register" method="post" class="form-horizontal">
+    <div class="form-group m-5">
+        <label asp-for="Email" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group m-5">
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group m-5">
+        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group m-5">
+        <label asp-for="Role" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="Role" asp-items="ViewBag.Roles" class="form-control"></select>
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <div class="form-group m-5">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </div>
+    <div class="form-group m-5">
+        <div class="col-md-offset-2 col-md-10">
+            <button asp-action="Index" asp-controller="Users" class="btn btn-outline-info">Back To Users</button>
+        </div>
+    </div>
+</form>
+
+

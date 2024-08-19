@@ -1,0 +1,134 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Microsoft.AspNetCore.Identity
+@using BTL_Finance.Enums
+@inject UserManager<BTL_Finance.Models.Identity.ApplicationUser> usermanager
+@model List<Request>
+
+@{
+    var user = await usermanager.GetUserAsync(User);
+    var roles = await usermanager.GetRolesAsync(user);
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+    int counter = 1;
+    int Request_count = 0;
+
+}
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-@TempData["AlertType"] alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="Close">&times;</a>
+        @TempData["AlertMessage"]
+    </div>
+}
+
+<nav class="navbar p-0 shadow-none">
+    <div class="container-fluid m-0 p-0">
+        <a asp-action="AddRequest" asp-controller="Request" class="btn btn-success m-0">New Request </a>
+    </div>
+</nav>
+<div id="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div id="content" class="d-none">
+    <h1>Requests</h1>
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search by Request Name">
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="requestsTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Request Name</th>
+                    <th>CompanyName</th>
+
+                    <th>ClientName</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Channel</th>
+                    <th>Type</th>
+                    <th>AttachmentPath</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td>@(counter++)</td>
+                            <td class="request-name">@request.Request_Name</td>
+                            <td>@request.CompanyName</td>
+                            <td>@request.ClientName</td>
+                            <td>@request.Email</td>
+                            <td>@request.Mobile</td>
+                            <td>@request.Channel</td>
+                            <td>@request.Type</td>
+                            <td><a href="@Url.Action("ServeFile", "Request", new { filePath = request.AttachmentPath })" target="_blank">View In Browser</a></td>
+                            @{
+                                Request_count = request.process;
+                            }
+                            <td>
+                                @foreach (var item in roles)
+                                {
+                                    if ((item == "OrderUser" && request.process == (int)EnumProcess.Request) || (item == "Admin" && request.Status_order_sheet == false))
+                                    {
+                                        <a asp-action="AddOrderSheet" asp-controller="OrderSheet" asp-route-id="@request.ID" class="btn btn-outline-warning">Add Order Sheet</a>
+                                    }
+                                    if ((item == "POUser" && request.process == (int)EnumProcess.orderSheet) || (item == "Admin" && request.Status_Quote == false))
+                                    {
+                                        <a asp-action="AddQuote" asp-controller="Quote" asp-route-id="@request.ID" class="btn btn-outline-warning">Add Quote Sheet</a>
+                                    }
+                                    if ((item == "POUser" && request.process == (int)EnumProcess.Quote) || (item == "Admin" && request.Status_PO == false))
+                                    {
+                                        <a asp-action="AddPurchaseOrder" asp-controller="PurchaseOrder" asp-route-id="@request.ID" class="btn btn-outline-warning">Add PO Sheet</a>
+                                    }
+                                    if ((item == "InvoiceUser" && request.process == (int)EnumProcess.PO) || (item == "Admin" && request.Status_Delivery_Note == false))
+                                    {
+                                        <a asp-action="AddDeliveryNote" asp-controller="DeliveryNote" asp-route-id="@request.ID" class="btn btn-outline-warning">Add Delivery Note</a>
+                                    }
+                                    if ((item == "InvoiceUser" && request.process == (int)EnumProcess.DeliveryNote) || (item == "Admin" && request.Status_Invoice == false))
+                                    {
+                                        <a asp-action="AddInvoice" asp-controller="Invoice" asp-route-id="@request.ID" class="btn btn-outline-warning">Add Invoice Sheet</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="text-center">No requests found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Simulate a delay to show the loading spinner
+            setTimeout(function () {
+                $('#loading').hide();
+                $('#content').removeClass('d-none');
+            }, 1000); // Adjust the timeout as needed
+
+            // Search functionality
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#requestsTable tbody tr').filter(function () {
+                    $(this).toggle($(this).find('.request-name').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $(".alert").show().delay(3000).fadeOut(500); // Display for 3 seconds, fade out in 0.5 seconds
+        });
+    </script>
+}

@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<BTL_Finance.Models.Identity.ApplicationUser> usermanager
+@{
+    var user = await usermanager.GetUserAsync(User);
+    var roles = await usermanager.GetRolesAsync(user);
+    Layout = "~/Views/Shared/_Layout_Us.cshtml";
+}
+@model List<BTL_Finance.Models.Notification>
+<div id="loading" class="text-center my-5">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div id="content" class="d-none">
+    <div class="list-group">
+        @if (Model.Any())
+        {
+            @foreach (var notification in Model)
+            {
+                @*         @foreach (var item in roles)
+        {
+        if (item == "OrderUser" )
+        {
+        <a asp-action="AddOrderSheet" asp-controller="OrderSheet" asp-route-id="@notification.ID" class="list-group-item list-group-item-action">Add Order Sheet</a>
+        }
+        else if (item == "POUser" )
+        {
+        <a asp-action="AddQuote" asp-controller="Quote" asp-route-id="@notification.ID" class="list-group-item list-group-item-action">Add Quote Sheet</a>
+        <a asp-action="AddPurchaseOrder" asp-controller="PurchaseOrder" asp-route-id="@notification.ID" class="list-group-item list-group-item-action">Add PO Sheet</a>
+        }
+        else if (item == "InvoiceUser" )
+        {
+        <a asp-action="AddDeliveryNote" asp-controller="DeliveryNote" asp-route-id="@notification.ID" class="list-group-item list-group-item-action">Add Delivery Note </a>
+        <a asp-action="AddInvoice" asp-controller="Invoice" asp-route-id="@notification.ID" class="list-group-item list-group-item-action">Add Invoice Sheet</a>
+        }
+
+        } *@
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@notification.Title</h5>
+                        <small>@notification.Date.ToString("g")</small>
+                    </div>
+                    <p class="mb-1">@notification.Description</p>
+                </a>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No requests found.</td>
+            </tr>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Simulate a delay to show the loading spinner
+            setTimeout(function () {
+                $('#loading').hide();
+                $('#content').removeClass('d-none');
+            }, 1000); // Adjust the timeout as needed
+        });
+    </script>
+}
